@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "works": [
+    {
+      "id": "project-01",
+      "code": "PROJECT 01",
+      "kind": "game",
+      "status": "incubating",
+      "name": { "ko": "PROJECT 01", "en": "PROJECT 01" },
+      "summary": { "ko": "첫 번째 게임", "en": "Our first game" },
+      "icon": null,
+      "stores": {},
+      "privacy": null
+    },
+    {
+      "id": "project-02",
+      "code": "PROJECT 02",
+      "kind": "app",
+      "status": "incubating",
+      "name": { "ko": "PROJECT 02", "en": "PROJECT 02" },
+      "summary": { "ko": "첫 번째 앱", "en": "Our first app" },
+      "icon": null,
+      "stores": {},
+      "privacy": null
+    }
+  ]
+}
