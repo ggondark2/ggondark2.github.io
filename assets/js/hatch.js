@@ -25,7 +25,7 @@ window.Hatch = (() => {
     const d = document.createElement('canvas'); d.width = d.height = 128; const g = d.getContext('2d');
     for (let k = 0; k < 70; k++) {
       const a = r() * 6.283, rr = r() * 44, px = 64 + Math.cos(a) * rr, py = 64 + Math.sin(a) * rr, sz = 10 + r() * 22;
-      const m = g.createRadialGradient(px, py, 0, px, py, sz); m.addColorStop(0, 'rgba(232,214,184,.22)'); m.addColorStop(1, 'rgba(232,214,184,0)');
+      const m = g.createRadialGradient(px, py, 0, px, py, sz); m.addColorStop(0, 'rgba(150,118,82,.2)'); m.addColorStop(1, 'rgba(150,118,82,0)');
       g.fillStyle = m; g.fillRect(px - sz, py - sz, sz * 2, sz * 2);
     }
     tex.dust = d;
@@ -34,8 +34,9 @@ window.Hatch = (() => {
   function makeParticles() {
     const r = rng(7);
     shards = Array.from({ length: C.shards }, () => {
-      const a = -Math.PI / 2 + (r() - .5) * Math.PI * 1.5, sp = 380 + r() * 620, n = 3 + (r() * 3 | 0), size = 6 + r() * 16;
-      const pts = Array.from({ length: n }, (_, k) => { const aa = k / n * Math.PI * 2 + r() * .6; return [Math.cos(aa) * size * (.5 + r() * .5), Math.sin(aa) * size * (.5 + r() * .5)]; });
+      const a = -Math.PI / 2 + (r() - .5) * Math.PI * 1.5, sp = 380 + r() * 620, n = 6 + (r() * 4 | 0), size = 6 + r() * 16;
+      // 들쭉날쭉한 껍데기 윤곽: 꼭짓점을 많이 두고 반지름을 크게 흔든다
+      const pts = Array.from({ length: n }, (_, k) => { const aa = k / n * Math.PI * 2 + r() * .35, rr = size * (k % 2 ? .35 + r() * .3 : .75 + r() * .3); return [Math.cos(aa) * rr, Math.sin(aa) * rr]; });
       return { vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, vr: (r() - .5) * 18, pts, size, tu: .2 + r() * .6, tv: .2 + r() * .5, ox: (r() - .5) * 120 };
     });
     fluff = Array.from({ length: C.fluff }, () => ({ vx: (r() - .5) * 260, vy: -80 - r() * 260, ph: r() * 6, s: 5 + r() * 9, ox: (r() - .5) * 100, oy: (r() - .5) * 40, k: r() * 6 | 0, vr: (r() - .5) * 3 }));
@@ -59,14 +60,20 @@ window.Hatch = (() => {
     if (fa > 0) { const rr = 220 * s * (0.4 + t * 3), gr = x.createRadialGradient(ox, oy, 0, ox, oy, rr);
       gr.addColorStop(0, `rgba(255,248,220,${fa})`); gr.addColorStop(.4, `rgba(255,190,90,${fa * .6})`); gr.addColorStop(1, 'rgba(255,140,40,0)');
       x.fillStyle = gr; x.beginPath(); x.arc(ox, oy, rr, 0, 7); x.fill(); }
-    // 충격 고리
+    // 충격파: 선이 아니라 퍼지는 빛의 띠
     const ra = Math.max(0, 1 - t * 2.2);
-    if (ra > 0) { x.strokeStyle = `rgba(255,214,150,${ra})`; x.lineWidth = 2 + ra * 8; x.beginPath(); x.ellipse(ox, oy, 40 * s + T * 520 * s, (40 * s + T * 520 * s) * .42, 0, 0, 7); x.stroke(); }
+    if (ra > 0) {
+      const R = 40 * s + T * 520 * s;
+      x.save(); x.translate(ox, oy); x.scale(1, .42);
+      const rg = x.createRadialGradient(0, 0, R * .55, 0, 0, R);
+      rg.addColorStop(0, 'rgba(255,214,150,0)'); rg.addColorStop(.75, `rgba(255,200,120,${ra * .55})`); rg.addColorStop(1, 'rgba(255,200,120,0)');
+      x.fillStyle = rg; x.beginPath(); x.arc(0, 0, R, 0, 7); x.fill(); x.restore();
+    }
     // 바닥 먼지: 파편이 떨어진 자리에서 퍼지며 사라진다
     dust.forEach(d => {
       const k = Math.max(0, (t - .25 - d.delay) / .75); if (k <= 0) return;
-      const px = ox + Math.cos(d.a) * d.sp * k * s * 2.2, py = origin.floor - 8 * s + Math.sin(d.a) * d.sp * k * s * .35, sz = 128 * d.s * s * (.6 + k * 1.4);
-      x.globalAlpha = Math.sin(k * Math.PI) * .9; x.drawImage(tex.dust, px - sz / 2, py - sz / 2, sz, sz);
+      const px = ox + Math.cos(d.a) * d.sp * k * s * 2.2, py = origin.floor - 8 * s + Math.sin(d.a) * d.sp * k * s * .35, sz = 128 * d.s * s * (.4 + k);
+      x.globalAlpha = Math.sin(k * Math.PI) * .55; x.drawImage(tex.dust, px - sz / 2, py - sz / 2, sz, sz);
     });
     x.globalAlpha = 1;
     // 껍데기 파편: 실제 껍데기 질감을 다각형으로 오려 낸다
@@ -78,8 +85,7 @@ window.Hatch = (() => {
       x.save(); x.clip();
       const R = p.size * s * 1.1, sw = sh.width * .18;
       x.drawImage(sh, sh.width * p.tu, sh.height * p.tv, sw, sw, -R, -R, R * 2, R * 2);
-      x.restore();
-      x.strokeStyle = 'rgba(90,60,30,.45)'; x.lineWidth = 1; x.stroke(); x.restore();
+      x.restore(); x.restore();
     });
     // 솜털
     fluff.forEach(f => {
@@ -110,7 +116,7 @@ window.Hatch = (() => {
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
-        trigger: '.hatch', start: 'top top', end: () => '+=' + innerHeight * C.scrollLength, pin: '.hatch-pin', scrub: .7,
+        trigger: '.hatch', start: 'top top', end: () => '+=' + innerHeight * C.scrollLength, pin: '.hatch-pin', scrub: .7, invalidateOnRefresh: true,
         onUpdate: self => { const p = self.progress; setStage(p < .33 ? 0 : p < .58 ? 1 : 2); },
         onRefresh: size,
       },
@@ -128,12 +134,12 @@ window.Hatch = (() => {
     // 3. 부화: 껍데기가 갈라지고 파편과 솜털, 병아리가 솟는다
       .set('#h-egg', { opacity: 0 }, 6).set(['#h-bottom', '#h-top'], { opacity: 1 }, 6)
       .to(fx, { t: 1, duration: 1.8, onUpdate: () => draw(fx.t) }, 6)
-      .fromTo('#h-top', { x: 0, y: 0, rotate: 0 }, { keyframes: { x: ['0%', '28%', '62%'], y: ['0%', '-120%', '-40%'], rotate: [0, 40, 95] }, duration: 1.8, ease: 'power1.out' }, 6)
+      .fromTo('#h-top', { x: 0, y: 0, rotate: 0 }, { keyframes: { x: ['0%', '22%', innerWidth < 860 ? '30%' : '62%'], y: ['0%', '-120%', '-40%'], rotate: [0, 40, 95] }, duration: 1.8, ease: 'power1.out' }, 6)
       .to('#h-top', { opacity: 0, duration: .5 }, 7.3)
       .fromTo('#h-bottom', { y: 0, scaleY: 1 }, { keyframes: { scaleY: [1, .9, 1.04, 1] }, duration: .8 }, 6)
       .fromTo('#h-chick', { opacity: 0, yPercent: 35, scaleY: .7, scaleX: 1.1 }, { opacity: 1, yPercent: -8, scaleY: 1.08, scaleX: .96, duration: .7, ease: 'power2.out' }, 6.15)
       .to('#h-chick', { yPercent: 0, scaleY: 1, scaleX: 1, duration: .6, ease: 'back.out(3)' }, 6.85)
-      .to('#h-bottom', { xPercent: 52, rotate: 12, y: '4%', duration: 1.2, ease: 'power2.out' }, 7.1)
+      .to('#h-bottom', { xPercent: () => (innerWidth < 860 ? C.shellSlideMobile : C.shellSlide), rotate: 12, y: '4%', duration: 1.2, ease: 'power2.out' }, 7.1)
       .to(stageEl, { '--heat': .45, duration: 1.4 }, 6.5)
       .fromTo('.studio-note', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, 7.6)
       .to({}, { duration: 1.4 });

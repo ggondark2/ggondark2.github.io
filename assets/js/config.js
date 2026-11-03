@@ -21,8 +21,15 @@ window.SITE_CONFIG = {
     eggR: 108,                               // 알 반지름 (원본 px)
     empty: [4, 20, 23],                      // 비어 있는 칸 번호 (0부터, 왼쪽 위에서 오른쪽으로)
     keySlots: [8, 15, 3],                    // 작품 알을 둘 칸. works.json 의 부화 중 작품이 순서대로 들어간다
-    nextSlot: 20,                            // 작품 목록의 "다음 알" 자리로 보여 줄 빈 칸
+    nextSlot: 4,                             // 작품 목록의 "다음 알" 자리로 보여 줄 빈 칸
     tiltDeg: -11,                            // 계란판 기울기
+  },
+
+  // 작품 목록 계란판 줄
+  worksStrip: {
+    tileMax: 330,           // 칸 하나의 최대 너비 (px)
+    maxCols: 5,             // 데스크톱 한 줄 최대 칸 수
+    maxColsMobile: 3,       // 모바일 한 줄 최대 칸 수
   },
 
   // 검란 램프
@@ -54,5 +61,7 @@ window.SITE_CONFIG = {
     shards: 26,             // 껍데기 파편 수
     fluff: 40,              // 솜털 입자 수
     dust: 14,               // 바닥 먼지 덩이 수
+    shellSlide: 52,         // 부화 후 아래 껍데기가 옆으로 비켜나는 거리 (껍데기 폭 대비 %, 데스크톱)
+    shellSlideMobile: 22,   // 같은 값 (모바일)
   },
 };

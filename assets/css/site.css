@@ -103,7 +103,7 @@ img{display:block;max-width:100%}
 .stage.on .ico{opacity:1;fill:var(--amber)}
 .studio-note{margin-top:clamp(20px,4vh,40px);font:600 clamp(16px,1.3vw,20px)/1.6 var(--f-body);color:var(--text-dim);max-width:34em;opacity:0;transform:translateY(16px)}
 .hatch-stage{position:relative;height:min(78vh,720px);display:grid;place-items:end center}
-.hatch-stage .fx{position:absolute;inset:-20% -30%;width:160%;height:140%;pointer-events:none;z-index:4}
+.hatch-stage .fx{position:absolute;inset:-20% -30%;width:160%;height:140%;pointer-events:none;z-index:1}
 .hatch-stage::before{content:"";position:absolute;left:50%;bottom:6%;width:min(110%,760px);aspect-ratio:1;transform:translate(-50%,40%);border-radius:50%;
   background:radial-gradient(closest-side,rgba(255,170,70,calc(.35*var(--heat,0))),transparent);pointer-events:none}
 .nest{position:relative;width:min(34vh,330px);aspect-ratio:353/457;margin-bottom:12%;z-index:2}
@@ -126,7 +126,9 @@ img{display:block;max-width:100%}
 /* 작품 */
 .works{position:relative;background:var(--room-2);color:var(--text);padding:clamp(80px,14vh,160px) var(--gut) clamp(80px,12vh,140px);overflow:hidden}
 .sec-title{position:relative;font:400 clamp(56px,8vw,128px)/.95 var(--f-display);letter-spacing:-.01em}
-.works-list{position:relative;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(46%,240px),1fr));gap:clamp(28px,4vh,44px) 0;margin-top:clamp(40px,7vh,80px);max-width:1200px}
+.works-list{position:relative;list-style:none;display:grid;justify-content:start;gap:clamp(28px,4vh,44px) 0;margin-top:clamp(40px,7vh,80px)}
+.work:first-child .tile{border-radius:10px 0 0 10px}
+.work:last-child .tile{border-radius:0 10px 10px 0}
 .work{position:relative;display:grid;justify-items:center;align-content:start;text-align:center;outline-offset:-3px}
 .tile{position:relative;width:100%;background:var(--plate) var(--tile-pos)/var(--tile-size) no-repeat;overflow:hidden;box-shadow:0 26px 36px -18px rgba(0,0,0,.6)}
 .tile-lit{position:absolute;inset:0;background:var(--lit-plate) var(--tile-pos)/var(--tile-size) no-repeat;opacity:0;transition:opacity .6s var(--ease-out);
@@ -203,11 +205,16 @@ img{display:block;max-width:100%}
   .tray{right:-40vw;top:36%;width:160vw}
   .hatch-pin{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);align-content:stretch;padding-top:84px;padding-bottom:12px;gap:8px}
   .hatch-stage{height:100%}
-  .nest{width:min(29vh,250px);margin-bottom:10%}
+  .nest{width:min(29vh,240px);margin-bottom:10%;transform:translateX(-14%)}
   .stage{font-size:clamp(28px,8.4vw,44px)}
   .studio-note{margin-top:14px;font-size:15px}
-  .works-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 0}
-  .work h3{font-size:22px}
+  .works-list{gap:28px 0}
+  .work .tile .egg-stamp{font-size:8px}
+  .work h3{font-size:clamp(16px,4.6vw,22px)}
+  .kind{padding:6px}
+  .kind .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .work-meta{flex-wrap:nowrap;gap:6px}
+  .status{font-size:11px;gap:5px}
   .work-meta{flex-wrap:wrap;gap:6px;font-size:12px}
   .site-foot small{margin-left:0;width:100%}
 }

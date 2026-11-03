@@ -51,7 +51,7 @@ window.Works = (() => {
       <div class="tile" style="${crop(slot)}">${art}</div>
       <h3>${loc(w.name)}</h3>
       <div class="work-meta">
-        <span class="kind"><svg class="ico"><use href="#${ICON[w.kind]}"/></svg>${t('kind.' + w.kind)}</span>
+        <span class="kind" title="${t('kind.' + w.kind)}"><svg class="ico"><use href="#${ICON[w.kind]}"/></svg><span class="lbl">${t('kind.' + w.kind)}</span></span>
         <span class="status ${w.status}"><svg class="mini-egg"><use href="#i-egg"/></svg>${t('status.' + w.status)}</span>
       </div>
       ${stores ? `<div class="stores">${stores}</div>` : ''}
@@ -68,7 +68,16 @@ window.Works = (() => {
     // 부화 중 작품은 첫 화면과 같은 알 칸, 출시 작품은 빈 칸(껍데기만 남은 자리)에 놓는다
     ul.innerHTML = list.map(w => item(w, w.status === 'incubating' ? T.keySlots[k++ % T.keySlots.length] : T.nextSlot)).join('') +
       `<li class="work next" aria-hidden="true"><div class="tile" style="${crop(T.nextSlot)}"></div><h3>${I18N.t('works.next')}</h3></li>`;
+    fit();
   }
+
+  // 칸 수만큼만 열을 만들어 판이 한 조각으로 이어지게 한다 (화면 폭별 최대 열 수는 config)
+  function fit() {
+    const ul = document.getElementById('works-list'), n = ul.children.length, W = SITE_CONFIG.worksStrip;
+    const max = innerWidth < 860 ? W.maxColsMobile : W.maxCols;
+    ul.style.gridTemplateColumns = `repeat(${Math.min(n, max)}, minmax(0, ${W.tileMax}px))`;
+  }
+  addEventListener('resize', () => { if (list.length) fit(); });
 
   function reveal() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
