@@ -12,3 +12,8 @@ codex-imagegen (gpt-6.1-sol, high) 으로 생성. 원본과 크로마 키 중간
 
 ## og.jpg
 실제 첫 화면(1200x630)을 캡처한 것.
+
+## tray / tray-candled
+> Website hero background plate, landscape 3:2. Straight top-down orthographic photograph of a large gray-beige molded paper pulp egg tray filling the entire frame edge to edge, a regular grid of 6 columns by 4 rows of round cups with the little pyramid posts between them. Most cups hold a chicken egg seen from directly above (oval shapes): mostly off-white eggs, about one in five light brown. Exactly three cups are empty: row 4 column 3, row 4 column 6, and row 1 column 5, showing the bare pulp cup bottom. Soft even warm light from the upper left, subtle real shadows inside the cups and under each egg, visible fibrous pulp texture. Realistic, high detail, no text, no stamps, no watermark, no props, no hands.
+
+> (edit of tray.webp) Edit this photo. Keep EXACTLY the same framing, tray, cup grid, egg positions, egg sizes and the three empty cups, pixel-aligned with the input. Change only the lighting: the room is dark and every egg is lit from underneath like egg candling, so each shell glows translucent warm amber and orange, brightest in the middle, deeper red-orange toward the rim, with faint darker branching veins and a slightly paler air cell near one side; brown eggs glow a deeper red-orange. The pulp tray falls into deep warm shadow, nearly black brown, with only a faint rim light near the glowing eggs. Empty cups stay empty and dark. Realistic photograph, no text, no watermark.

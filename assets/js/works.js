@@ -32,15 +32,23 @@ window.Works = (() => {
     return v;
   }
 
-  function item(w, n) {
-    const t = I18N.t, stamp = `${SITE_CONFIG.studio.founded} ${SITE_CONFIG.studio.stampPrefix} ${String(n).padStart(2, '0')}`;
+  // 계란판 사진에서 한 칸(알 하나와 그 둘레)을 잘라 낸 배경 값
+  function crop(slot) {
+    const T = SITE_CONFIG.tray, c = slot % T.cols, r = Math.floor(slot / T.cols);
+    const sw = (T.colX[T.cols - 1] - T.colX[0]) / (T.cols - 1), sh = (T.rowY[T.rows - 1] - T.rowY[0]) / (T.rows - 1);
+    const x0 = T.colX[c] - sw / 2, y0 = T.rowY[r] - sh / 2;
+    return `--tile-size:${T.plateW / sw * 100}% auto;--tile-pos:${x0 / (T.plateW - sw) * 100}% ${y0 / (T.plateH - sh) * 100}%;aspect-ratio:${sw}/${sh}`;
+  }
+
+  function item(w, slot) {
+    const t = I18N.t, stamp = `${SITE_CONFIG.studio.founded} ${SITE_CONFIG.studio.stampPrefix} ${String(slot + 1).padStart(2, '0')}`;
     const art = w.status === 'hatched'
       ? `<div class="work-hatched">${w.icon ? `<img class="app-icon" src="${w.icon}" alt="" loading="lazy">` : '<img class="chick" src="assets/img/chick.webp" alt="" loading="lazy">'}<img class="shell" src="assets/img/shell-bottom.webp" alt="" loading="lazy"></div>`
-      : `<div class="work-egg"><div class="egg-body"><img src="assets/img/egg-whole.webp" alt="" loading="lazy"><div class="candle"></div><div class="inside"><svg><use href="#${ICON[w.kind]}"/></svg></div><span class="egg-stamp">${stamp}</span></div></div>`;
+      : `<div class="tile-lit"></div><div class="inside"><svg><use href="#${ICON[w.kind]}"/></svg></div><span class="egg-stamp">${stamp}</span>`;
     const stores = Object.entries(w.stores || {}).map(([k, url]) =>
       `<a class="store" href="${url}" target="_blank" rel="noopener"><svg class="ico"><use href="#${STORE[k]}"/></svg>${t('store.' + k)}</a>`).join('');
-    return `<li class="work" tabindex="0">
-      <div class="work-pit">${art}</div>
+    return `<li class="work ${w.status}" tabindex="0">
+      <div class="tile" style="${crop(slot)}">${art}</div>
       <h3>${loc(w.name)}</h3>
       <div class="work-meta">
         <span class="kind"><svg class="ico"><use href="#${ICON[w.kind]}"/></svg>${t('kind.' + w.kind)}</span>
@@ -52,16 +60,22 @@ window.Works = (() => {
   }
 
   function render() {
-    const ul = document.getElementById('works-list');
-    ul.innerHTML = list.map((w, i) => item(w, i + 1)).join('') +
-      `<li class="work next" aria-hidden="true"><div class="work-pit"></div><h3>${I18N.t('works.next')}</h3></li>`;
+    const T = SITE_CONFIG.tray, ul = document.getElementById('works-list');
+    // CSS 변수 안의 url() 은 스타일시트 기준으로 풀리므로 절대 주소로 넘긴다
+    ul.style.setProperty('--plate', `url(${new URL(T.plate, I18N.root).href})`);
+    ul.style.setProperty('--lit-plate', `url(${new URL(T.litPlate, I18N.root).href})`);
+    let k = 0;
+    // 부화 중 작품은 첫 화면과 같은 알 칸, 출시 작품은 빈 칸(껍데기만 남은 자리)에 놓는다
+    ul.innerHTML = list.map(w => item(w, w.status === 'incubating' ? T.keySlots[k++ % T.keySlots.length] : T.nextSlot)).join('') +
+      `<li class="work next" aria-hidden="true"><div class="tile" style="${crop(T.nextSlot)}"></div><h3>${I18N.t('works.next')}</h3></li>`;
   }
 
   function reveal() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.from('#works-title', { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '#works', start: 'top 75%' } });
-    gsap.from('.work .work-pit', { scale: .6, opacity: 0, duration: 1, ease: 'back.out(1.6)', stagger: .12, scrollTrigger: { trigger: '#works-list', start: 'top 80%' } });
-    gsap.fromTo('.work-egg, .work-hatched', { y: -140, rotate: -25, opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 1.1, ease: 'bounce.out', stagger: .12, delay: .25, clearProps: 'transform', scrollTrigger: { trigger: '#works-list', start: 'top 80%' } });
+    // 판 조각이 차례로 맞물리고, 도장이 찍힌다
+    gsap.fromTo('.work .tile', { y: 60, rotate: i => (i % 2 ? 6 : -6), opacity: 0 }, { y: 0, rotate: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: .1, clearProps: 'transform', scrollTrigger: { trigger: '#works-list', start: 'top 80%' } });
+    gsap.fromTo('.work .egg-stamp', { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: 'power4.in', stagger: .1, delay: .6, clearProps: 'opacity,scale', scrollTrigger: { trigger: '#works-list', start: 'top 80%' } });
     gsap.from('.work h3, .work-meta, .stores', { y: 20, opacity: 0, duration: .8, ease: 'expo.out', stagger: .06, delay: .5, scrollTrigger: { trigger: '#works-list', start: 'top 80%' } });
   }
 

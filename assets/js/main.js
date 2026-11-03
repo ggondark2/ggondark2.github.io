@@ -32,7 +32,7 @@
   if (!reduce) {
     gsap.from('#contact-title, .contact-lead', { yPercent: 40, opacity: 0, duration: 1, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: '#contact', start: 'top 75%' } });
     gsap.from('.mail', { clipPath: 'inset(0 100% 0 0)', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '#contact', start: 'top 65%' } });
-    gsap.from('.contact-actions > *', { y: 20, opacity: 0, stagger: .08, duration: .8, ease: 'expo.out', scrollTrigger: { trigger: '#contact', start: 'top 60%' } });
+    gsap.from('.contact-actions', { y: 20, opacity: 0, duration: .8, ease: 'expo.out', scrollTrigger: { trigger: '#contact', start: 'top 60%' } });
   }
   addEventListener('load', () => ScrollTrigger.refresh());
 })().catch(err => { console.error(err); });
