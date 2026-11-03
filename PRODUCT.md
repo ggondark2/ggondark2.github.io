@@ -21,7 +21,7 @@ delegated: 정적 HTML/CSS/JS (빌드 도구 없음). GitHub Pages 사용자 사
 
 ## Positioning
 
-혼자 만드는 앱·게임 스튜디오. 이름의 "닭"이 정체성의 일부다.
+앱과 게임을 만드는 스튜디오. 이름의 "닭"이 정체성의 일부다.
 
 ## Capabilities and Constraints
 
@@ -35,6 +35,8 @@ delegated: 정적 HTML/CSS/JS (빌드 도구 없음). GitHub Pages 사용자 사
 
 - 상호: 꼰닭 스튜디오 / ggondark studio (사업자등록 2026-11-03, 업종: 모바일·온라인 게임 및 응용 소프트웨어 개발·공급)
 - 사용자 요청: 모션그래픽이 매우 멋있고 높은 퀄리티일 것.
+- 소개 문구에 "혼자", "1인" 표현을 쓰지 않는다.
+- 분위기는 귀엽고 편안하게. 알 속을 들여다보는 연출(핏줄, 적외선 같은 붉은 투과광, 속 그림자)은 쓰지 않는다.
 
 ## Evidence on Hand
 

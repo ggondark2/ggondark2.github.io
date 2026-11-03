@@ -13,7 +13,7 @@ window.SITE_CONFIG = {
   // 첫 화면 계란판 (실사 판 이미지 위에 도장과 작품 알을 겹친다)
   tray: {
     plate: 'assets/img/tray.webp',          // 평소 계란판 사진
-    litPlate: 'assets/img/tray-candled.webp', // 같은 구도로 아래에서 빛을 비춘 사진 (램프 안쪽에만 보인다)
+    litPlate: 'assets/img/tray-warm.webp',  // 같은 구도로 따뜻한 램프를 비춘 사진 (램프 안쪽에만 보인다)
     plateW: 1536, plateH: 1024,              // 판 이미지 원본 크기 (px)
     cols: 6, rows: 4,                        // 칸 수
     colX: [137, 389, 642, 895, 1147, 1400],  // 열별 알 중심 x (원본 px)

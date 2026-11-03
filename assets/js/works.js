@@ -1,8 +1,8 @@
 // 작품 목록: data/works.json 을 읽어 그린다. 형식이 틀린 항목은 콘솔 오류를 남기고 그리지 않는다.
 window.Works = (() => {
-  const KINDS = ['game', 'app'], STATUSES = ['incubating', 'hatched'];
+  const KINDS = ['game', 'app', 'secret'], STATUSES = ['incubating', 'hatched'];
   const STORE = { googlePlay: 'i-play', appStore: 'i-apple' };
-  const ICON = { game: 'i-game', app: 'i-app' };
+  const ICON = { game: 'i-game', app: 'i-app', secret: 'i-chick' };
   let list = [];
 
   function valid(w, i) {
@@ -18,7 +18,7 @@ window.Works = (() => {
   }
 
   async function load() {
-    const res = await fetch(I18N.root + 'data/works.json');
+    const res = await fetch(I18N.root + 'data/works.json', { cache: 'no-cache' }); // 작품 갱신이 바로 보이도록 매번 재검증
     if (!res.ok) throw new Error('[works] works.json 을 불러오지 못함 (' + res.status + ')');
     const data = await res.json();
     if (data.version !== 1) throw new Error('[works] 지원하지 않는 버전: ' + data.version);
@@ -44,7 +44,7 @@ window.Works = (() => {
     const t = I18N.t, stamp = `${SITE_CONFIG.studio.founded} ${SITE_CONFIG.studio.stampPrefix} ${String(slot + 1).padStart(2, '0')}`;
     const art = w.status === 'hatched'
       ? `<div class="work-hatched">${w.icon ? `<img class="app-icon" src="${w.icon}" alt="" loading="lazy">` : '<img class="chick" src="assets/img/chick.webp" alt="" loading="lazy">'}<img class="shell" src="assets/img/shell-bottom.webp" alt="" loading="lazy"></div>`
-      : `<div class="tile-lit"></div><div class="inside"><svg><use href="#${ICON[w.kind]}"/></svg></div><span class="egg-stamp">${stamp}</span>`;
+      : `<div class="tile-lit"></div><span class="egg-stamp">${stamp}</span>`;
     const stores = Object.entries(w.stores || {}).map(([k, url]) =>
       `<a class="store" href="${url}" target="_blank" rel="noopener"><svg class="ico"><use href="#${STORE[k]}"/></svg>${t('store.' + k)}</a>`).join('');
     return `<li class="work ${w.status}" tabindex="0">

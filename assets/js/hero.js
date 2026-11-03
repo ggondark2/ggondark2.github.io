@@ -2,8 +2,7 @@
 window.Hero = (() => {
   const C = window.SITE_CONFIG;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ICON = { game: 'i-game', app: 'i-app' };
-  let hero, tray, lit, dark, glow, ring, tag, spots = [], keys = [];
+    let hero, tray, lit, dark, glow, ring, tag, spots = [], keys = [];
   let lx = 0, ly = 0, tx = 0, ty = 0, idle = 0, tour = 0, power = 0, running = false, finePointer = false;
   let inv = null, fwd = null, box = { l: 0, t: 0, w: 1, h: 1 };
 
@@ -36,7 +35,7 @@ window.Hero = (() => {
         // 작품 알은 판에서 그 알만 떠 와 따로 움직인다
         const bx = 100 / p.d * 100, cx = (T.colX[i % T.cols] - T.eggR) / (T.plateW - T.eggR * 2) * 100, cy = (T.rowY[Math.floor(i / T.cols)] - T.eggR) / (T.plateH - T.eggR * 2) * 100;
         el.style.setProperty('--bg-size', `${bx}% auto`); el.style.setProperty('--bg-pos', `${cx}% ${cy}%`);
-        el.innerHTML = `<div class="shell"></div><div class="shell lit"></div><div class="inside"><svg><use href="#${ICON[w.kind]}"/></svg></div>` +
+        el.innerHTML = `<div class="shell"></div><div class="shell lit"></div>` +
           `<svg class="crack" viewBox="0 0 100 100"><path d="M10 52 L22 44 L30 56 L42 42 L52 56 L62 42 L72 54 L90 46"/></svg>`;
         el.work = w; el.tabIndex = -1;
       }
@@ -90,7 +89,7 @@ window.Hero = (() => {
     });
     if (best && bestD < best.w * .7 && power > .5) {
       tag.firstChild.textContent = best.work.code;
-      tag.lastChild.textContent = I18N.t('kind.' + best.work.kind) + ' ' + I18N.t('status.incubating');
+      tag.lastChild.textContent = best.work.name[I18N.lang] + ' ' + I18N.t('status.incubating');
       tag.style.left = (best.cx + best.w * .55) + 'px'; tag.style.top = best.cy + 'px'; tag.style.opacity = 1;
     } else tag.style.opacity = 0;
     requestAnimationFrame(tick);

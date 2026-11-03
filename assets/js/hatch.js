@@ -1,4 +1,4 @@
-// 부화 과정: 스크롤에 따라 검란 → 균열 → 부화. 파편 VFX는 진행도에 따라 결정적으로 그려 되감기도 자연스럽다.
+// 부화 과정: 스크롤에 따라 따뜻한 빛 → 균열 → 부화. 파편 VFX는 진행도에 따라 결정적으로 그려 되감기도 자연스럽다.
 window.Hatch = (() => {
   const C = window.SITE_CONFIG.hatch;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -123,8 +123,7 @@ window.Hatch = (() => {
     });
     setStage(0);
     // 1. 검란: 불빛이 들어오고 속에 병아리 그림자
-    tl.fromTo('#h-egg .candle', { opacity: 0 }, { opacity: 1, duration: 2 }, .3)
-      .fromTo('#h-egg .embryo', { opacity: 0 }, { opacity: .55, duration: 2 }, .8)
+    tl.fromTo('#h-egg .candle', { opacity: 0 }, { opacity: .85, duration: 2 }, .3)
       .fromTo(stageEl, { '--heat': 0 }, { '--heat': 1, duration: 2 }, .3)
       .to('#h-egg', { rotate: 2, duration: .4, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 1.2)
     // 2. 균열: 들썩임이 커지며 금이 간다

@@ -18,7 +18,7 @@ window.I18N = (() => {
 
   async function load(l) {
     if (dicts[l]) return dicts[l];
-    const res = await fetch(ROOT + 'data/i18n/' + l + '.json');
+    const res = await fetch(ROOT + 'data/i18n/' + l + '.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('[i18n] 사전을 불러오지 못함: ' + l + ' (' + res.status + ')');
     return (dicts[l] = await res.json());
   }
