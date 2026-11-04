@@ -171,6 +171,8 @@ components:
 **Display Font:** Do Hyeon (with Pretendard, sans-serif)
 **Body Font:** Pretendard (with system-ui, Apple SD Gothic Neo)
 **Label/Mono Font:** Nanum Gothic Coding 700 (with monospace)
+**일본어:** 제목 가나와 한자 RocknRoll One, 본문 Noto Sans JP, 상태 문구 M PLUS 1 Code 700
+**대만 번체:** 제목 한자 Chiron GoRound TC 700, 본문과 상태 문구 Noto Sans TC
 
 **Character:** 굵고 둥근 Do Hyeon이 큰 목소리를 내고, Pretendard가 짧은 설명을 받친다. 고정폭 Nanum Gothic Coding은 난각 도장과 온도, 상태 코드에만 쓴다.
 
@@ -235,8 +237,8 @@ components:
 ### Navigation
 - 고정 상단바. 스크롤하면 `room` .86 + blur(10px)로 굳는다.
 - 메뉴는 Pretendard 700, `text-dim`. 호버 시 `text`와 2px 호박 밑줄이 왼쪽에서 펼쳐진다(.35s).
-- 언어 토글: 1.5px 반투명 테두리 알약 안의 KO/EN, 선택은 호박 채움.
-- 860px 이하: "문의"와 언어 토글만.
+- 언어 토글: 1.5px 반투명 테두리 알약 안의 KO/EN/JA/繁中, 선택은 호박 채움.
+- 860px 이하: "문의"와 언어 토글만. 520px 이하는 로고 글자를 숨기고 아이콘만 둔다.
 
 ### Stamp (난각 도장)
 알 위에 찍힌 코드(예: "1102 GGD 09"). 독립형은 2px 테두리 4px 모서리, `stamp-hi`. 알 위에서는 테두리 없이 `stamp` + multiply, 칸마다 약간 회전. 등장은 scale 2.4→1, .35s `power4.in`(도장을 내리찍는 동작).

@@ -8,11 +8,15 @@
       "status": "incubating",
       "name": {
         "ko": "첫 작품",
-        "en": "First title"
+        "en": "First title",
+        "ja": "最初の作品",
+        "zh-TW": "首款作品"
       },
       "summary": {
         "ko": "곧 공개",
-        "en": "Coming soon"
+        "en": "Coming soon",
+        "ja": "近日公開",
+        "zh-TW": "即將公開"
       },
       "icon": null,
       "stores": {},

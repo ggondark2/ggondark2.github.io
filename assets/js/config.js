@@ -7,8 +7,17 @@ window.SITE_CONFIG = {
     stampPrefix: 'GGD',                // 난각 도장 가운데 글자
   },
 
-  // 지원 언어. 첫 번째가 기본 언어이고 HTML 본문도 이 언어로 쓰여 있다.
-  languages: ['ko', 'en'],
+  // 지원 언어. 첫 번째 언어로 HTML 본문이 쓰여 있다.
+  languages: ['ko', 'en', 'ja', 'zh-TW'],
+  // 브라우저 언어 앞부분을 어떤 사전으로 보여 줄지 (zh 는 간체 사용자도 번체로 본다)
+  langMatch: { ko: 'ko', en: 'en', ja: 'ja', zh: 'zh-TW' },
+  // langMatch 에 없는 브라우저 언어로 들어온 방문자에게 보여 줄 언어
+  fallbackLang: 'en',
+  // 언어별 추가 글꼴. 해당 언어를 고를 때만 불러온다. 글꼴 조합은 site.css 의 html[lang] 규칙과 맞춘다.
+  langFonts: {
+    ja: 'https://fonts.googleapis.com/css2?family=RocknRoll+One&family=M+PLUS+1+Code:wght@700&family=Noto+Sans+JP:wght@500;600;700;800&display=swap',
+    'zh-TW': 'https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@700&family=Noto+Sans+TC:wght@500;600;700;800&display=swap',
+  },
 
   // 첫 화면 계란판 (실사 판 이미지 위에 도장과 작품 알을 겹친다)
   tray: {

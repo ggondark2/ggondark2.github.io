@@ -4,6 +4,7 @@ window.I18N = (() => {
   const LANGS = window.SITE_CONFIG.languages;
   const ROOT = new URL('../../', document.currentScript.src).href;
   const dicts = {};
+  const fontsLoaded = new Set();
   let lang = pick();
 
   function pick() {
@@ -12,8 +13,23 @@ window.I18N = (() => {
     let saved = null;
     try { saved = localStorage.getItem('lang'); } catch (e) { /* 저장소 차단 시 브라우저 언어로 */ }
     if (LANGS.includes(saved)) return saved;
-    const nav = (navigator.language || '').slice(0, 2);
-    return LANGS.includes(nav) ? nav : LANGS[0];
+    for (const tag of navigator.languages || []) {
+      const match = window.SITE_CONFIG.langMatch[tag.split('-')[0].toLowerCase()];
+      if (match) return match;
+    }
+    return window.SITE_CONFIG.fallbackLang;
+  }
+
+  // 한중일 글꼴은 무거우므로 고른 언어의 글꼴만 불러온다
+  function loadFont(l) {
+    const href = window.SITE_CONFIG.langFonts[l];
+    if (!href || fontsLoaded.has(href)) return;
+    fontsLoaded.add(href);
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.onerror = () => console.error('[i18n] 글꼴을 불러오지 못함: ' + l);
+    document.head.append(link);
   }
 
   async function load(l) {
@@ -30,6 +46,7 @@ window.I18N = (() => {
   }
 
   function applyDom() {
+    loadFont(lang);
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-attr]').forEach(el => {

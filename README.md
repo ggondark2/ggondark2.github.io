@@ -43,9 +43,9 @@ google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
 
 ### 문구·연출 값
 
-- 문구(한국어/영어): `data/i18n/ko.json`, `data/i18n/en.json`. 한국어는 `index.html` 본문에도 들어 있다.
+- 문구(한국어/영어/일본어/대만 번체): `data/i18n/<언어>.json`. 한국어는 `index.html` 본문에도 들어 있다.
 - 연출·배치 값(계란판 칸 수, 램프 반경, 등장 타이밍, 부화 스크롤 길이 등): `assets/js/config.js` (한글 주석 참고).
-- 새 언어: `config.js` 의 `languages` 에 추가하고 `data/i18n/<언어>.json` 을 만든다.
+- 새 언어: `config.js` 의 `languages`, `langMatch`, `langFonts` 에 추가하고 `data/i18n/<언어>.json` 을 만든다. `data/works.json` 의 이름과 소개, `privacy/index.html` 의 본문과 표시 규칙, 언어 토글, `site.css` 의 글꼴 규칙도 함께 추가한다.
 
 ### 배포 후 캐시
 
